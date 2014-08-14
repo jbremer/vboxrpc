@@ -44,5 +44,15 @@ class VirtualBox(object):
     def startvm(self, vmname):
         return self._call('startvm', vmname, type='headless')
 
+    def status(self, vmname):
+        ret = {}
+
+        for line in self._call('showvminfo', vmname, machinereadable=True):
+            key, value = line.split('=', 1)
+            value = value[1:-1]
+            ret[key.strip()] = value.strip()
+
+        return ret
+
     def stopvm(self, vmname):
         return self._call('controlvm', vmname, 'poweroff')

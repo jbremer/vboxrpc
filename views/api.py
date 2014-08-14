@@ -6,7 +6,7 @@ from lib.vbox import VirtualBox
 vb = VirtualBox()
 
 class ApiView(FlaskView):
-    @route('/listvms/')
+    @route('/listvms')
     def listvms(self):
         return jsonify(success=True, vms=vb.listvms())
 
@@ -24,6 +24,10 @@ class ApiView(FlaskView):
     def startvm(self, vmname):
         vb.startvm(vmname)
         return jsonify(success=True)
+
+    @route('/status/<string:vmname>')
+    def status(self, vmname):
+        return jsonify(success=True, status=vb.status(vmname))
 
     @route('/stopvm/<string:vmname>')
     def stopvm(self, vmname):
