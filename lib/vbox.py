@@ -47,9 +47,13 @@ class VirtualBox(object):
     def status(self, vmname):
         ret = {}
 
-        for line in self._call('showvminfo', vmname, machinereadable=True):
+        buf = self._call('showvminfo', vmname, machinereadable=True)
+        for line in buf.split('\n'):
             key, value = line.split('=', 1)
-            value = value[1:-1]
+
+            if value[0] == '"' and value[-1] == '"':
+                value = value[1:-1]
+
             ret[key.strip()] = value.strip()
 
         return ret

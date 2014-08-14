@@ -31,5 +31,7 @@ class ApiView(FlaskView):
 
     @route('/stopvm/<string:vmname>')
     def stopvm(self, vmname):
+        # TODO Add forced killing of VirtualBox instances in case this command
+        # gives an error.
         vb.stopvm(vmname)
         return jsonify(success=True)
