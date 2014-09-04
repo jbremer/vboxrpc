@@ -83,9 +83,8 @@ class VirtualBox(object):
         return self._call('modifyvm', vmname,
                           ostype=operating_systems[ostype])
 
-    def push_iso(self, f):
-        isopath = os.path.join(config('iso-dir'),
-                               os.path.basename(f.filename))
+    def push_iso(self, f, filename):
+        isopath = os.path.join(config('iso-dir'), os.path.basename(filename))
         f.save(isopath)
 
     def ramsize(self, vmname, ramsize):

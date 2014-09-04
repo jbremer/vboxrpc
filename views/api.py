@@ -82,11 +82,11 @@ class ApiView(FlaskView):
         vb.mac_address(vmname, adapter, mac)
         return jsonify(success=True)
 
-    @route('/push-iso', methods=['POST'])
-    def pushiso(self):
+    @route('/push-iso/<string:filename>', methods=['POST'])
+    def pushiso(self, filename):
         f = request.files['file']
         if f:
-            vb.push_iso(f)
+            vb.push_iso(f, filename)
         return jsonify(success=True)
 
     @route('/hwvirt/<string:vmname>/<int:enable>')
