@@ -39,7 +39,7 @@ class VirtualBox(object):
 
     def create_hdd(self, vmname, disksize):
         hddpath = os.path.join(config('hdd-dir'),
-                               '%s.iso' % os.path.basename(vmname))
+                               '%s.vdi' % os.path.basename(vmname))
 
         ctlname = 'IDE Controller'
         self._call('createhd', filename=hddpath, size=disksize)
