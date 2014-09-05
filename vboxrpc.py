@@ -2,6 +2,7 @@
 import argparse
 from flask import Flask
 import logging
+import os
 
 from lib.config import load_config, config
 from views.api import ApiView
@@ -42,6 +43,11 @@ if __name__ == '__main__':
             log.error('The %r value is missing in your configuration! '
                       'Please provide it and run VBoxRPC again.', row)
             exit(1)
+
+        path = config(row)
+        if not os.path.isdir(path):
+            log.info('Creating directory %r', path)
+            os.makedirs(path)
 
     app = create_app(debug=args.debug)
     app.run(host=args.host, port=args.port)
