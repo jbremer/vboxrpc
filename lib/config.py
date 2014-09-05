@@ -1,7 +1,8 @@
 from ConfigParser import ConfigParser
+import logging
 import os
 
-_config = None
+_config = {}
 
 
 class Config(object):
@@ -46,4 +47,4 @@ def load_config(path):
 
 
 def config(key):
-    return _config[key]
+    return _config.get(key)

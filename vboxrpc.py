@@ -3,7 +3,7 @@ import argparse
 from flask import Flask
 import logging
 
-from lib.config import load_config
+from lib.config import load_config, config
 from views.api import ApiView
 
 log = logging.getLogger(__name__)
@@ -29,10 +29,19 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.debug:
-        log.setLevel(logging.DEBUG)
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
 
     if args.settings:
         load_config(args.settings)
+
+    required = 'iso-dir', 'hdd-dir', 'vms-dir'
+    for row in required:
+        if not config(row):
+            log.error('The %r value is missing in your configuration! '
+                      'Please provide it and run VBoxRPC again.', row)
+            exit(1)
 
     app = create_app(debug=args.debug)
     app.run(host=args.host, port=args.port)
